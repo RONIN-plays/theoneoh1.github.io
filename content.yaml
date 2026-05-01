@@ -154,3 +154,10 @@ blogs:
     platform: medium
     date: "2026-04-14"
     tags: [CI/CD, GitHub Actions, LaTeX, Portfolio]
+
+  - title: "How I Gave Our PostgreSQL Database a Time Machine (With pgBackRest)"
+    summary: "A practical guide to setting up Point-in-Time Recovery for PostgreSQL using pgBackRest and what drove me into it."
+    url: https://medium.com/@anandkore1/how-i-gave-our-postgresql-database-a-time-machine-with-pgbackrest-acdc2c0842be
+    platform: medium
+    date: "2026-05-01"
+    tags: [PostgreSQL, Backup, PITR, Recovery]
