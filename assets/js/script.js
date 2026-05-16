@@ -306,7 +306,7 @@
   // Detect which page we're on
   var isBlogPage = document.body.getAttribute('data-page') === 'blog';
 
-  fetch('content.yaml')
+  fetch('/data/content.yaml')
     .then(function (res) {
       if (!res.ok) throw new Error('Failed to load content.yaml');
       return res.text();

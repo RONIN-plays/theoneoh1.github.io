@@ -8,6 +8,11 @@
 
 set -e # Exit on error
 
+# Navigate to project root (one level up from scripts/)
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
+cd "$PROJECT_ROOT"
+
 # --- Colors for terminal output ---
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -43,14 +48,14 @@ EOF
 cmd_validate() {
     log_info "Validating content.yaml syntax..."
     
-    if [ ! -f "content.yaml" ]; then
-        log_error "content.yaml not found in current directory."
+    if [ ! -f "data/content.yaml" ]; then
+        log_error "data/content.yaml not found in project root."
         exit 1
     fi
 
     # Try validating with Python (usually available)
     if command -v python3 >/dev/null 2>&1; then
-        python3 -c "import yaml; yaml.safe_load(open('content.yaml'))" 2>/dev/null
+        python3 -c "import yaml; yaml.safe_load(open('data/content.yaml'))" 2>/dev/null
         if [ $? -eq 0 ]; then
             log_success "content.yaml syntax is valid."
             return 0
@@ -59,7 +64,7 @@ cmd_validate() {
             exit 1
         fi
     elif command -v python >/dev/null 2>&1; then
-        python -c "import yaml; yaml.safe_load(open('content.yaml'))" 2>/dev/null
+        python -c "import yaml; yaml.safe_load(open('data/content.yaml'))" 2>/dev/null
         if [ $? -eq 0 ]; then
             log_success "content.yaml syntax is valid."
             return 0
@@ -68,7 +73,7 @@ cmd_validate() {
             exit 1
         fi
     elif command -v yq >/dev/null 2>&1; then
-        yq e '.' content.yaml >/dev/null 2>&1
+        yq e '.' data/content.yaml >/dev/null 2>&1
         if [ $? -eq 0 ]; then
             log_success "content.yaml syntax is valid."
             return 0

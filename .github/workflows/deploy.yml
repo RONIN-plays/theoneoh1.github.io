@@ -36,7 +36,7 @@ jobs:
         id: changes
         run: |
           # On first run or if PDF doesn't exist yet, always compile
-          if [ ! -f "Anand_Kore_Resume.pdf" ]; then
+          if [ ! -f "assets/docs/Anand_Kore_Resume.pdf" ]; then
             echo "changed=true" >> $GITHUB_OUTPUT
             exit 0
           fi
@@ -78,14 +78,15 @@ jobs:
       - name: Move PDF to root
         if: steps.changes.outputs.changed == 'true'
         run: |
-          mv resume/Anand_Kore_Resume.pdf ./Anand_Kore_Resume.pdf
+          mkdir -p assets/docs
+          mv resume/Anand_Kore_Resume.pdf ./assets/docs/Anand_Kore_Resume.pdf
 
       - name: Commit and push updated PDF
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add Anand_Kore_Resume.pdf
+          git add assets/docs/Anand_Kore_Resume.pdf
           # Only commit if there are actual changes
           git diff --cached --quiet || git commit -m "chore: recompile resume PDF [skip ci]"
           git pull --rebase origin ${{ github.ref_name }}
