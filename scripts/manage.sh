@@ -127,6 +127,20 @@ EOF
     docker build -t ${IMAGE_NAME} -f Dockerfile.tmp .
     rm Dockerfile.tmp
 
+    log_info "Starting container on port ${PORT}..."
+    docker run --rm -p ${PORT}:80 ${IMAGE_NAME}
+    log_success "Docker container stopped."
+}
+
+# ===========================================
+# CLI Dispatcher
+# ===========================================
+case "${1:-help}" in
+    start)
+        cmd_start
+        ;;
+    docker)
+        cmd_docker
         ;;
     validate)
         cmd_validate
