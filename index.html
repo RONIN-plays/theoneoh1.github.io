@@ -4,103 +4,127 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nirjhar Mitra - AI Enthusiast & Developer</title>
+  <title>Nirjhar Mitra — AI Enthusiast & Developer</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.ico">
   <meta name="description"
-    content="AI Enthusiast and developer working across Machine Learning, Robotics (ROS2, Gazebo), Flutter, and Cloud - pursuing a Minor in AI from IIT Ropar.">
+    content="AI Enthusiast and developer working across Machine Learning, Robotics (ROS2, Gazebo), Flutter, and Cloud — CTO at AIZenera LLP, pursuing AI at IIT Ropar.">
+  <meta name="theme-color" content="#0b0b0d">
 
-  <!-- OG Meta Tags -->
-  <meta property="og:title" content="Nirjhar Mitra - AI Enthusiast & Developer">
+  <!-- OG / Twitter -->
+  <meta property="og:title" content="Nirjhar Mitra — AI Enthusiast & Developer">
   <meta property="og:description"
     content="AI Enthusiast and developer working across Machine Learning, Robotics, Flutter, and Cloud technologies.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://theoneoh1.github.io/">
-  <meta property="og:image" content="https://theoneoh1.github.io/og-preview.png">
+  <meta property="og:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nirjhar Mitra - AI Enthusiast & Developer">
+  <meta name="twitter:title" content="Nirjhar Mitra — AI Enthusiast & Developer">
   <meta name="twitter:description"
     content="AI Enthusiast and developer working across Machine Learning, Robotics, Flutter, and Cloud technologies.">
-  <meta name="twitter:image" content="https://theoneoh1.github.io/og-preview.png">
+  <meta name="twitter:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
+
+  <!-- Theme bootstrap: avoid flash of wrong theme -->
+  <script>
+    (function () {
+      try {
+        var s = localStorage.getItem('theme');
+        if (!s) s = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', s);
+      } catch (e) { }
+    })();
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
-<body>
+<body data-root="">
+
+  <div class="backdrop" aria-hidden="true">
+    <div class="backdrop-grid"></div>
+    <div class="backdrop-glow"></div>
+    <div class="backdrop-noise"></div>
+  </div>
+  <div class="progress" id="progress" aria-hidden="true"></div>
 
   <!-- Nav -->
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a href="#about" class="nav-name">Nirjhar Mitra</a>
+      <a href="#top" class="nav-brand"><span class="dot"></span>nirjhar.mitra</a>
       <div class="nav-links" id="nav-links">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#experience">Experience</a>
         <a href="#projects">Projects</a>
         <a href="#education">Education</a>
-        <a href="#certifications">Certifications</a>
         <a href="pages/blog.html">Blog</a>
       </div>
       <div class="nav-actions">
-        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
-              clip-rule="evenodd" />
+        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
           </svg>
-          <svg class="icon-moon" viewBox="0 0 20 20" fill="currentColor">
-            <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </svg>
         </button>
-        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
-          <svg viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clip-rule="evenodd" />
+        <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
           </svg>
         </button>
       </div>
     </div>
   </nav>
 
-  <div class="container">
-    <!-- About - rendered from content.yaml -->
-    <section class="about" id="about"></section>
+  <main id="top">
+    <div class="container">
+      <!-- Hero / About — rendered from content.yaml -->
+      <section class="hero" id="about" aria-label="Introduction"></section>
+    </div>
 
-    <!-- Skills - rendered from content.yaml -->
-    <section id="skills"></section>
+    <!-- Skills marquee — rendered from content.yaml -->
+    <div class="marquee" id="marquee" aria-hidden="true"></div>
 
-    <!-- Experience - rendered from content.yaml -->
-    <section id="experience"></section>
+    <div class="container">
+      <!-- About bento — rendered from content.yaml -->
+      <section id="overview"></section>
 
-    <!-- Projects - rendered from content.yaml -->
-    <section id="projects"></section>
+      <!-- Skills -->
+      <section id="skills"></section>
 
-    <!-- Education - rendered from content.yaml -->
-    <section id="education"></section>
+      <!-- Experience -->
+      <section id="experience"></section>
 
-    <!-- Certifications - rendered from content.yaml -->
-    <section id="certifications"></section>
-  </div>
+      <!-- Projects -->
+      <section id="projects"></section>
+
+      <!-- Education + Certifications -->
+      <section id="education"></section>
+
+      <!-- Contact -->
+      <section class="contact" id="contact"></section>
+    </div>
+  </main>
 
   <!-- Footer -->
   <footer class="footer" id="footer"></footer>
 
   <!-- Back to top -->
-  <button class="back-to-top" id="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 20 20" fill="currentColor">
-      <path fill-rule="evenodd"
-        d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-        clip-rule="evenodd" />
+  <button class="icon-btn back-to-top" id="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 19V5M5 12l7-7 7 7" />
     </svg>
   </button>
 
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
+    integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous"></script>
   <script src="assets/js/script.js"></script>
 </body>
 

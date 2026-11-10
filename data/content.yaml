@@ -110,10 +110,15 @@ experience:
       - Completed a remote Machine Learning internship applying ML fundamentals to real-world tasks.
 
 projects:
-  - name: Oddity
-    description: Ongoing robotics software project integrating ROS2 and Gazebo simulation with AI for autonomous systems.
-    url: "#"
-    tags: [ROS2, Gazebo, AI, Robotics]
+  - name: snip.
+    description: Bit.ly-style URL shortener built for load and failure — Redis cache-aside redirects at ~2 ms p95 under 1,000 req/s, Lua token-bucket rate limiting, streamed click analytics, circuit breakers, and 46 automated tests.
+    url: https://github.com/RONIN-plays/snip-url-shortener
+    tags: [Python, FastAPI, PostgreSQL, Redis, Docker]
+
+  - name: SafeRoute
+    description: Women's safety navigation app that scores routes using crime data, live crowd density, and public-transport frequency — with hazard reporting, a crowd heatmap, companion mode for shared trips, and one-tap SOS.
+    url: https://github.com/RONIN-plays/WOMEN-SAFETY-APP-PROJECT
+    tags: [Flutter, Dart, Maps, Safety]
 
   - name: Recruitex
     description: AI-powered recruitment platform with proctored assessments, live AI interviews, and resume-grounded question generation.
@@ -149,7 +154,7 @@ education:
     institution: Institute of Engineering & Management (IEM)
     year: "2024 - 2028"
 
-  - degree: Internshala Trainings
+  - degree: Data Science and Python
     institution: Internshala
     year: "2024"
 
