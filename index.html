@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="assets/images/favicon.ico">
   <meta name="description"
     content="Nirjhar Mitra — AI enthusiast and developer working across machine learning, robotics (ROS2, Gazebo), Flutter and cloud. CTO at AIZenera LLP, pursuing AI at IIT Ropar.">
-  <meta name="theme-color" content="#ECE9E2">
+  <meta name="theme-color" content="#F4EFE6">
   <link rel="canonical" href="https://theoneoh1.github.io/">
 
   <!-- OG / Twitter -->
@@ -36,7 +36,7 @@
         if (s !== 'light' && s !== 'dark') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         d.setAttribute('data-theme', s);
       } catch (e) { }
-      // Failsafe: never leave the preloader / hidden hero up if scripts stall.
+      // Failsafe: never leave the intro curtain up if scripts stall.
       setTimeout(function () { d.classList.add('is-loaded'); }, 6000);
     })();
   </script>
@@ -44,7 +44,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,100..900,0..100,0..1;1,9..144,100..900,0..100,0..1&family=Martian+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -52,50 +52,35 @@
 <body data-root="">
   <a class="skip-link" href="#main">Skip to content</a>
 
-  <!-- Preloader (only shown with JS, never with reduced motion) -->
-  <div class="preloader" id="preloader" aria-hidden="true">
-    <div class="preloader__row mono">
-      <span>Field notes / Portfolio</span>
-      <span>Calibrating</span>
-    </div>
-    <div class="preloader__count"><span id="preloader-count">000</span></div>
-    <div class="preloader__bar"><span id="preloader-bar"></span></div>
-    <div class="preloader__row mono">
-      <span>22.5726° N, 88.3639° E</span>
-      <span>Kolkata / IST</span>
-    </div>
+  <!-- Intro curtain (JS only, never with reduced motion) -->
+  <div class="curtain" id="curtain" aria-hidden="true">
+    <div class="curtain__panel curtain__panel--cobalt"></div>
+    <div class="curtain__panel curtain__panel--sun"></div>
+    <div class="curtain__panel curtain__panel--tomato"><span class="curtain__word">hello!</span></div>
   </div>
-
-  <!-- Faint 12-column guides -->
-  <div class="guides" aria-hidden="true">
-    <div class="guides__inner"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-  </div>
-
-  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <a class="nav__brand" href="#top" aria-label="Back to the top of the page">
+    <a class="nav__brand" href="#top" aria-label="Back to the top of the page" data-cursor="top">
+      <svg class="nav__ring" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="25" /><circle class="nav__ring-fill" id="progress-ring" cx="28" cy="28" r="25" pathLength="100" /></svg>
       <span class="nav__mark">NM</span>
-      <span class="nav__brand-text mono">Field notes</span>
     </a>
     <nav class="nav__links" aria-label="Primary">
       <ul>
-        <li><a href="#about"><span class="nav__idx mono">01</span>About</a></li>
-        <li><a href="#work"><span class="nav__idx mono">02</span>Work</a></li>
-        <li><a href="#experience"><span class="nav__idx mono">03</span>Experience</a></li>
-        <li><a href="#capabilities"><span class="nav__idx mono">04</span>Capabilities</a></li>
-        <li><a href="#education"><span class="nav__idx mono">05</span>Education</a></li>
-        <li><a href="#contact"><span class="nav__idx mono">06</span>Contact</a></li>
-        <li><a href="pages/blog.html"><span class="nav__idx mono">B</span>Blog</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#toolbox">Toolbox</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="pages/blog.html">Blog</a></li>
       </ul>
     </nav>
     <div class="nav__actions">
-      <button class="nav__btn mono" id="theme-toggle" type="button" aria-label="Switch to dark theme">
-        <span class="nav__btn-k">Theme</span><span class="nav__btn-v" data-theme-label>Light</span>
+      <button class="nav__theme" id="theme-toggle" type="button" aria-label="Switch to dark theme" data-cursor="flip">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="nav__sun" cx="12" cy="12" r="5" /><path class="nav__rays" d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" /></svg>
       </button>
-      <button class="nav__btn nav__menu-btn mono" id="menu-toggle" type="button" aria-expanded="false"
-        aria-controls="menu"><span data-menu-label>Menu</span></button>
+      <button class="nav__menu-btn" id="menu-toggle" type="button" aria-expanded="false" aria-controls="menu"><span data-menu-label>Menu</span></button>
     </div>
   </header>
 
@@ -103,132 +88,108 @@
   <div class="menu" id="menu" aria-hidden="true" inert>
     <nav aria-label="Mobile">
       <ol class="menu__list">
-        <li><a href="#about"><span class="mono">01</span><span class="menu__txt">About</span></a></li>
-        <li><a href="#work"><span class="mono">02</span><span class="menu__txt">Work</span></a></li>
-        <li><a href="#experience"><span class="mono">03</span><span class="menu__txt">Experience</span></a></li>
-        <li><a href="#capabilities"><span class="mono">04</span><span class="menu__txt">Capabilities</span></a></li>
-        <li><a href="#education"><span class="mono">05</span><span class="menu__txt">Education</span></a></li>
-        <li><a href="#contact"><span class="mono">06</span><span class="menu__txt">Contact</span></a></li>
-        <li><a href="pages/blog.html"><span class="mono">B</span><span class="menu__txt">Blog</span></a></li>
+        <li style="--i:0"><a href="#about">About</a></li>
+        <li style="--i:1"><a href="#work">Work</a></li>
+        <li style="--i:2"><a href="#experience">Experience</a></li>
+        <li style="--i:3"><a href="#toolbox">Toolbox</a></li>
+        <li style="--i:4"><a href="#education">Education</a></li>
+        <li style="--i:5"><a href="#contact">Contact</a></li>
+        <li style="--i:6"><a href="pages/blog.html">Blog</a></li>
       </ol>
     </nav>
-    <div class="menu__foot mono">
-      <span><span data-clock>--:--:--</span> IST</span>
-      <span>22.5726° N, 88.3639° E</span>
-    </div>
+    <p class="menu__foot mono">Kolkata, <span data-clock>--:--</span> IST</p>
   </div>
 
   <main id="main" tabindex="-1">
 
-    <!-- (00) Hero -->
-    <section class="hero" id="top" aria-label="Introduction">
-      <div id="hero-gl" class="hero__gl" aria-hidden="true"></div>
-      <div class="hero__marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <!-- Hero -->
+    <section class="zone zone--base hero" id="top" aria-label="Introduction" data-cursor-color="tomato">
+      <p class="hero__hi" data-hero-fade>Hello from Kolkata &mdash;</p>
 
-      <div class="hero__meta grid mono" data-hero-fade>
-        <dl class="hero__meta-item">
-          <dt>(00) Index</dt>
-          <dd>Portfolio, ed. <span data-year>2026</span></dd>
-        </dl>
-        <dl class="hero__meta-item">
-          <dt>Coordinates</dt>
-          <dd>22.5726° N<br>88.3639° E</dd>
-        </dl>
-        <dl class="hero__meta-item">
-          <dt>Local time / IST</dt>
-          <dd><span data-clock>--:--:--</span></dd>
-        </dl>
-        <dl class="hero__meta-item">
-          <dt>Status</dt>
-          <dd><span class="status-dot" aria-hidden="true"></span>Building</dd>
-        </dl>
-      </div>
-
-      <div class="hero__intro grid">
-        <p class="hero__role" id="hero-role" data-hero-fade></p>
-        <p class="hero__tagline" id="hero-tagline" data-hero-fade></p>
-      </div>
-
-      <h1 class="hero__name" id="hero-name">
-        <span class="line"><span>Nirjhar</span></span>
-        <span class="line line--r"><span>Mitra</span></span>
+      <h1 class="hero__name kinetic" id="hero-name" aria-label="Nirjhar Mitra">
+        <span class="hero__line hero__line--1" aria-hidden="true"><span class="kl">N</span><span class="kl">i</span><span class="kl">r</span><span class="kl">j</span><span class="kl">h</span><span class="kl">a</span><span class="kl">r</span></span>
+        <span class="hero__line hero__line--2" aria-hidden="true"><span class="kl">M</span><span class="kl">i</span><span class="kl">t</span><span class="kl">r</span><span class="kl">a</span></span>
       </h1>
 
-      <div class="hero__foot grid">
-        <a href="#about" class="hero__cue mono" data-hero-fade><span class="hero__cue-line" aria-hidden="true"></span>Scroll to read</a>
+      <div class="hero__copy">
+        <p class="hero__who" data-hero-fade>
+          <span id="hero-role">AI Enthusiast &amp; Developer</span>, who
+          <span class="rotator" id="rotator" aria-live="off"><span class="rotator__word">builds robots</span></span>
+        </p>
+        <p class="hero__tagline" id="hero-tagline" data-hero-fade></p>
         <div class="hero__ctas" data-hero-fade>
-          <a href="#work" class="btn" data-magnetic>View selected work</a>
-          <button type="button" class="btn btn--ghost" data-resume-open data-magnetic>Preview résumé</button>
+          <a href="#work" class="btn btn--ink" data-magnetic data-cursor="go">See the work</a>
+          <button type="button" class="btn btn--line" data-resume-open data-magnetic data-cursor="open">Preview résumé</button>
         </div>
+      </div>
+
+      <div class="stickers" id="stickers" aria-hidden="true"></div>
+      <p class="hero__hint mono" aria-hidden="true">psst, the stickers peel off</p>
+    </section>
+
+    <!-- About -->
+    <section class="zone zone--sun about" id="about" aria-labelledby="about-label" data-cursor-color="cobalt">
+      <h2 class="tag-label" id="about-label">About</h2>
+      <p class="about__big" id="about-big"></p>
+      <div class="about__grid">
+        <p class="about__summary" id="about-summary"></p>
+        <dl class="about__facts" id="about-facts"></dl>
       </div>
     </section>
 
-    <!-- (01) About -->
-    <section class="section about" id="about" aria-labelledby="about-label">
-      <div class="about__grid grid">
-        <div class="about__side">
-          <h2 class="sec-idx mono" id="about-label">(01) — About</h2>
-          <div class="about__facts" id="about-facts"></div>
-        </div>
-        <p class="about__statement" id="about-statement"></p>
-      </div>
-    </section>
-
-    <!-- (02) Work -->
-    <section class="section work" id="work" aria-labelledby="work-title">
-      <header class="sec-head grid">
-        <p class="sec-idx mono">(02) — Index of work</p>
-        <h2 class="sec-head__title" id="work-title" data-reveal="mask"><span class="mask"><span>Selected work</span></span></h2>
-        <p class="sec-head__meta mono" data-count="projects"></p>
-      </header>
-      <ol class="work-list" id="work-list"></ol>
-      <p class="work__more mono" id="work-more"></p>
-    </section>
-
-    <!-- (03) Experience -->
-    <section class="section experience" id="experience" aria-labelledby="exp-title">
-      <header class="sec-head grid">
-        <p class="sec-idx mono">(03) — Ledger</p>
-        <h2 class="sec-head__title" id="exp-title" data-reveal="mask"><span class="mask"><span>Experience</span></span></h2>
-        <p class="sec-head__meta mono" data-count="experience"></p>
-      </header>
-      <div class="ledger">
-        <div class="ledger__head mono" aria-hidden="true">
-          <span>Period</span><span>Role</span><span>Organisation</span><span>Location</span><span>State</span>
-        </div>
-        <ol class="ledger__body" id="ledger"></ol>
-      </div>
-    </section>
-
-    <!-- Velocity marquee (decorative; skills are listed in full below) -->
+    <!-- Double marquee (decorative; content repeated elsewhere) -->
     <div class="marquee" id="marquee" aria-hidden="true">
-      <div class="marquee__track" id="marquee-track"></div>
+      <div class="marquee__row marquee__row--solid"><div class="marquee__track" data-dir="-1"></div></div>
+      <div class="marquee__row marquee__row--outline"><div class="marquee__track" data-dir="1"></div></div>
     </div>
 
-    <!-- (04) Capabilities -->
-    <section class="section capabilities" id="capabilities" aria-labelledby="cap-title">
-      <header class="sec-head grid">
-        <p class="sec-idx mono">(04) — Spec sheet</p>
-        <h2 class="sec-head__title" id="cap-title" data-reveal="mask"><span class="mask"><span>Capabilities</span></span></h2>
-        <p class="sec-head__meta mono" data-count="skills"></p>
-      </header>
-      <div class="spec" id="spec"></div>
+    <!-- Work: pinned horizontal posters (vertical stack on mobile) -->
+    <section class="zone zone--base work" id="work" aria-labelledby="work-title" data-cursor-color="lime">
+      <div class="work__viewport">
+        <div class="work__track" id="work-track">
+          <header class="work__intro">
+            <h2 class="display work__title" id="work-title" data-split="rise"><span>Selected</span> <em>work</em></h2>
+            <p class="work__count mono" data-count="projects"></p>
+            <p class="work__cue"><span>Keep scrolling</span> <span class="work__cue-arrow" aria-hidden="true">&rarr;</span></p>
+          </header>
+          <ol class="work__list" id="work-list"></ol>
+          <div class="work__outro" id="work-more"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- (05) Education + certifications -->
-    <section class="section education" id="education" aria-labelledby="edu-title">
-      <header class="sec-head grid">
-        <p class="sec-idx mono">(05) — Training</p>
-        <h2 class="sec-head__title" id="edu-title" data-reveal="mask"><span class="mask"><span>Education</span></span></h2>
+    <!-- Experience -->
+    <section class="zone zone--blush experience" id="experience" aria-labelledby="exp-title" data-cursor-color="ink">
+      <header class="sec-head">
+        <h2 class="display" id="exp-title" data-split="rise">Experi<em>ence</em></h2>
+        <p class="sec-head__note">Tap a row to open it. <span class="mono" data-count="experience"></span></p>
       </header>
-      <div class="edu grid">
-        <div class="edu__col">
-          <h3 class="edu__label mono">Degrees &amp; schooling</h3>
-          <ol class="edu__list" id="edu-list"></ol>
+      <ol class="xp-list" id="xp-list"></ol>
+    </section>
+
+    <!-- Toolbox: physics skill playground -->
+    <section class="zone zone--lime toolbox" id="toolbox" aria-labelledby="tool-title" data-cursor-color="tomato">
+      <header class="sec-head">
+        <h2 class="display" id="tool-title" data-split="rise"><em>Tool</em>box</h2>
+        <div class="sec-head__side">
+          <p class="sec-head__note">Every skill is a chip. Grab one and throw it.</p>
+          <button type="button" class="btn btn--ink" id="shake-btn" data-magnetic data-cursor="shake">Shake the box</button>
         </div>
-        <div class="edu__col">
-          <h3 class="edu__label mono">Certifications</h3>
-          <ol class="edu__list" id="cert-list"></ol>
+      </header>
+      <div class="playground" id="playground" data-cursor="drag"></div>
+      <ul class="legend" id="legend" aria-label="Skills by category"></ul>
+    </section>
+
+    <!-- Education + certifications -->
+    <section class="zone zone--cobalt education" id="education" aria-labelledby="edu-title" data-cursor-color="sun">
+      <header class="sec-head">
+        <h2 class="display" id="edu-title" data-split="rise">School<em>ing</em></h2>
+      </header>
+      <div class="edu">
+        <ol class="edu__list" id="edu-list"></ol>
+        <div class="edu__certs">
+          <h3 class="edu__label">Certificates</h3>
+          <ul class="certs" id="cert-list"></ul>
         </div>
       </div>
     </section>
@@ -236,40 +197,36 @@
     <div class="load-error" id="load-error" role="alert" hidden></div>
   </main>
 
-  <!-- (06) Contact / footer -->
-  <footer class="contact" id="contact" aria-labelledby="contact-label">
-    <div class="contact__head grid">
-      <h2 class="sec-idx mono" id="contact-label">(06) — Contact</h2>
-      <p class="contact__lede" data-reveal>Open to research, collaborations and hard problems in AI, robotics and cloud. Write any time.</p>
-    </div>
-    <div class="contact__email-wrap" id="contact-email"></div>
-    <div class="contact__grid grid" id="contact-grid"></div>
-    <div class="contact__base mono">
+  <!-- Contact / footer -->
+  <footer class="zone zone--tomato contact" id="contact" aria-labelledby="contact-title" data-cursor-color="ink">
+    <h2 class="contact__big bouncy" id="contact-title"><span class="contact__line">Let's build</span> <span class="contact__line"><em>something</em></span></h2>
+    <p class="contact__lede">Open to research, collaborations and hard problems in AI, robotics and cloud.</p>
+    <div class="contact__row" id="contact-email"></div>
+    <ul class="pills" id="contact-pills"></ul>
+    <div class="contact__base">
       <span>&copy; <span data-year>2026</span> <span data-name>Nirjhar Mitra</span></span>
-      <span>22.5726° N, 88.3639° E</span>
-      <span>Set in Archivo &amp; IBM Plex Mono. Built by hand.</span>
+      <span>Kolkata, <span data-clock>--:--</span> IST</span>
+      <span>Set in Fraunces, Bricolage Grotesque &amp; Martian Mono</span>
+      <a href="#top" class="contact__top" data-cursor="up">Back to top</a>
     </div>
   </footer>
 
-  <button class="to-top mono" id="to-top" type="button" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-    <span>Top</span>
-  </button>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <!-- Résumé preview modal -->
   <div class="modal" id="resume-modal" role="dialog" aria-modal="true" aria-labelledby="resume-title" hidden>
     <div class="modal__backdrop" data-modal-close></div>
     <div class="modal__panel">
       <div class="modal__bar">
-        <p class="modal__title mono" id="resume-title">Résumé / PDF</p>
-        <div class="modal__actions mono">
-          <a href="#" class="modal__link" id="resume-newtab" target="_blank" rel="noopener">Open in new tab</a>
-          <a href="#" class="modal__link" id="resume-download" download>Download</a>
-          <button type="button" class="modal__close" data-modal-close aria-label="Close résumé preview">Close <span aria-hidden="true">&times;</span></button>
+        <p class="modal__title" id="resume-title">Résumé</p>
+        <div class="modal__actions">
+          <a href="#" class="pill pill--sm" id="resume-newtab" target="_blank" rel="noopener">New tab</a>
+          <a href="#" class="pill pill--sm pill--ink" id="resume-download" download>Download</a>
+          <button type="button" class="modal__close" data-modal-close aria-label="Close résumé preview">&times;</button>
         </div>
       </div>
       <div class="modal__frame">
-        <p class="modal__fallback">If the preview stays blank, your browser can't display PDFs inline. Use “Download” or “Open in new tab” above.</p>
+        <p class="modal__fallback">If the preview stays blank, your browser can't show PDFs inline. Use Download or New tab above.</p>
         <iframe id="resume-frame" title="Résumé PDF preview"></iframe>
       </div>
     </div>
@@ -279,6 +236,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Draggable.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/InertiaPlugin.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js" defer></script>
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
     integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous" defer></script>

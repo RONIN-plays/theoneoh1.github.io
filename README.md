@@ -1,8 +1,8 @@
 # Nirjhar Mitra — Portfolio
 
-A fast, data-driven static portfolio with a "telemetry sheet" design: Swiss-editorial layout meets aerospace spec sheet. Type is Archivo (variable width, condensed for display) with IBM Plex Mono for labels and indices; the palette is bone paper and ink with a single international-orange accent, in light and dark themes. The hero is a WebGL LiDAR terrain point cloud.
+A fast, data-driven static portfolio with a colour-blocked "Kinetic Lab" design: joyful, tactile and heavily animated. The base is cream, with flat tomato, lime, cobalt, sun and blush blocks (no gradients) and ink for text; the page background morphs between section colours as you scroll. Type is Fraunces (variable, with cursor-reactive hero letters), Bricolage Grotesque for UI and body, and Martian Mono for small labels, in light and dark themes.
 
-Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps and zero node modules; libraries (GSAP, Lenis, Three.js, js-yaml) load from CDNs. Deploys instantly.
+Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps and zero node modules; libraries (GSAP, Lenis, js-yaml) load from CDNs. Deploys instantly.
 
 🔗 **Live:** [theoneoh1.github.io](https://theoneoh1.github.io/)
 
@@ -11,13 +11,18 @@ Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps and z
 ## Key Features
 
 - **YAML-Driven Content:** All personal data (skills, experience, projects, education, certifications, blog posts) lives in a single `data/content.yaml`. Update the site without touching HTML or JavaScript.
-- **WebGL LiDAR Hero:** A point-cloud terrain scan (Three.js 0.160) in `assets/js/hero-gl.js`, tuned through the `CFG` object at the top of the file. Static single frame under reduced motion; falls back gracefully when WebGL or the CDN is unavailable.
-- **Animation:** GSAP 3.13 + ScrollTrigger + SplitText, with Lenis smooth scroll synced to ScrollTrigger.
-- **Sections:** Preloader, word-scrub about statement, project index with a cursor-following preview panel, experience ledger, velocity-reactive skills marquee, education and certifications, and a blog page.
-- **Cursor and Interaction:** Custom cursor and magnetic CTAs (desktop only), live Kolkata clock, scroll progress, active-section nav.
+- **Kinetic Type:** Fraunces variable (opsz, wght, SOFT, WONK axes) with hero letters that swell and soften near the cursor, Bricolage Grotesque (opsz, wdth, wght) and Martian Mono, all from Google Fonts.
+- **Animation:** GSAP 3.13 with ScrollTrigger, SplitText, Draggable, InertiaPlugin and DrawSVGPlugin, plus Lenis smooth scroll synced to ScrollTrigger. Includes an intro colour curtain, springy letter drops, and a scroll-driven background colour morph.
+- **Stickers and About:** Draggable, inertia-thrown stickers around the hero; an about statement where key words are highlighted with hand-drawn underlines and circles that draw on scroll (DrawSVG).
+- **Marquees:** Opposite-direction marquees whose speed follows scroll velocity.
+- **Projects:** Pinned horizontal-scroll colour-blocked posters on desktop (vertical stack on mobile).
+- **Experience:** Springy accordion rows with a colour fill on hover and a "Now" chip on current roles.
+- **Physics Skill Playground:** Skill chips fall into a box and can be grabbed and thrown. A small custom 2D physics engine in `assets/js/playground.js` (no dependencies), tuned through the `T` object at the top of the file. Chips are laid out statically under reduced motion.
+- **Cursor and Interaction:** Blob cursor with contextual labels and magnetic buttons (fine pointers only), live Kolkata clock, scroll progress ring, active-section nav, copy-email button with a toast.
 - **Résumé Modal:** The PDF in `assets/docs/` is previewed in a modal and offered for download.
+- **Blog Page:** `pages/blog.html` reads `blogs:` from the YAML, with a playful empty state.
 - **Light & Dark:** Theme toggle with `localStorage` persistence; defaults to the system preference and bootstraps before first paint.
-- **Accessible & Resilient:** Respects `prefers-reduced-motion` (no Lenis, scrub, or preloader delay), and is progressively enhanced: the page is complete without any CDN animation library.
+- **Accessible & Resilient:** Respects `prefers-reduced-motion` (no Lenis, pinning, scrub, physics, cursor or intro), and is progressively enhanced: the page is complete without any CDN animation library.
 - **Print Ready:** `@media print` styles for a clean PDF export.
 
 ## Getting Started
@@ -34,8 +39,8 @@ cd theoneoh1.github.io
 Open `data/content.yaml` and update the sections. Notes:
 
 - Link icons supported in the links section: `email`, `linkedin`, `github`, `preview` (opens the résumé in a modal), and `download`.
-- Projects without a real `url` (for example `"#"`) render as non-linked rows.
-- Any experience entry whose `date` contains "Present" is marked current in the ledger with an orange status dot and listed in the about facts.
+- Projects without a real `url` (for example `"#"`) render as non-linked posters.
+- Any experience entry whose `date` contains "Present" is marked current with a "Now" chip and listed in the about facts.
 - Blog posts come from the `blogs:` list; with none, the blog page shows an empty state.
 
 ### 3. Update the Résumé
@@ -65,7 +70,7 @@ Push to the `main` branch of a `yourusername.github.io` repository with GitHub P
 │   │   └── style.css                  # Design system (tokens, layout, themes, print)
 │   ├── js/
 │   │   ├── script.js                  # Fetches YAML, renders DOM, animation + interactions
-│   │   └── hero-gl.js                 # WebGL LiDAR point-cloud hero (Three.js; tune via CFG)
+│   │   └── playground.js              # Physics skill playground (custom 2D physics; tune via T)
 │   ├── images/
 │   │   ├── favicon.ico
 │   │   └── og-preview.png             # Social preview card
