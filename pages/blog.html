@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
@@ -7,92 +7,150 @@
   <title>Blog — Nirjhar Mitra</title>
   <link rel="icon" type="image/png" href="../assets/images/favicon.ico">
   <meta name="description"
-    content="Technical blog posts on AI, Machine Learning, Robotics, and Cloud by Nirjhar Mitra.">
-  <meta name="theme-color" content="#0b0b0d">
+    content="Technical writing on AI, machine learning, robotics and cloud by Nirjhar Mitra.">
+  <meta name="theme-color" content="#ECE9E2">
+  <link rel="canonical" href="https://theoneoh1.github.io/pages/blog.html">
 
   <meta property="og:title" content="Blog — Nirjhar Mitra">
-  <meta property="og:description" content="Technical blog posts on AI, Machine Learning, Robotics, and Cloud.">
+  <meta property="og:description" content="Technical writing on AI, machine learning, robotics and cloud.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://theoneoh1.github.io/pages/blog.html">
   <meta property="og:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Blog — Nirjhar Mitra">
-  <meta name="twitter:description" content="Technical blog posts on AI, Machine Learning, Robotics, and Cloud.">
+  <meta name="twitter:description" content="Technical writing on AI, machine learning, robotics and cloud.">
   <meta name="twitter:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
 
   <script>
     (function () {
+      var d = document.documentElement;
+      d.className += ' js';
       try {
         var s = localStorage.getItem('theme');
-        if (!s) s = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', s);
+        if (s !== 'light' && s !== 'dark') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        d.setAttribute('data-theme', s);
       } catch (e) { }
+      setTimeout(function () { d.classList.add('is-loaded'); }, 6000);
     })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 
 <body data-page="blog" data-root="../">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="backdrop" aria-hidden="true">
-    <div class="backdrop-grid"></div>
-    <div class="backdrop-glow"></div>
-    <div class="backdrop-noise"></div>
+  <div class="guides" aria-hidden="true">
+    <div class="guides__inner"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
   </div>
-  <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="../index.html" class="nav-brand"><span class="dot"></span>nirjhar.mitra</a>
-      <div class="nav-links" id="nav-links">
-        <a href="../index.html#about">About</a>
-        <a href="../index.html#skills">Skills</a>
-        <a href="../index.html#experience">Experience</a>
-        <a href="../index.html#projects">Projects</a>
-        <a href="../index.html#education">Education</a>
-        <a href="blog.html" class="active">Blog</a>
-      </div>
-      <div class="nav-actions">
-        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-        <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
-      </div>
-    </div>
-  </nav>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
 
-  <main>
-    <div class="container">
-      <section class="blog-page" id="blog-content"></section>
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="../index.html" aria-label="Home">
+      <span class="nav__mark">NM</span>
+      <span class="nav__brand-text mono">Field notes</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        <li><a href="../index.html#about"><span class="nav__idx mono">01</span>About</a></li>
+        <li><a href="../index.html#work"><span class="nav__idx mono">02</span>Work</a></li>
+        <li><a href="../index.html#experience"><span class="nav__idx mono">03</span>Experience</a></li>
+        <li><a href="../index.html#capabilities"><span class="nav__idx mono">04</span>Capabilities</a></li>
+        <li><a href="../index.html#education"><span class="nav__idx mono">05</span>Education</a></li>
+        <li><a href="#contact"><span class="nav__idx mono">06</span>Contact</a></li>
+        <li><a href="blog.html" class="is-active" aria-current="page"><span class="nav__idx mono">B</span>Blog</a></li>
+      </ul>
+    </nav>
+    <div class="nav__actions">
+      <button class="nav__btn mono" id="theme-toggle" type="button" aria-label="Switch to dark theme">
+        <span class="nav__btn-k">Theme</span><span class="nav__btn-v" data-theme-label>Light</span>
+      </button>
+      <button class="nav__btn nav__menu-btn mono" id="menu-toggle" type="button" aria-expanded="false"
+        aria-controls="menu"><span data-menu-label>Menu</span></button>
     </div>
+  </header>
+
+  <div class="menu" id="menu" aria-hidden="true" inert>
+    <nav aria-label="Mobile">
+      <ol class="menu__list">
+        <li><a href="../index.html#about"><span class="mono">01</span><span class="menu__txt">About</span></a></li>
+        <li><a href="../index.html#work"><span class="mono">02</span><span class="menu__txt">Work</span></a></li>
+        <li><a href="../index.html#experience"><span class="mono">03</span><span class="menu__txt">Experience</span></a></li>
+        <li><a href="../index.html#capabilities"><span class="mono">04</span><span class="menu__txt">Capabilities</span></a></li>
+        <li><a href="../index.html#education"><span class="mono">05</span><span class="menu__txt">Education</span></a></li>
+        <li><a href="#contact"><span class="mono">06</span><span class="menu__txt">Contact</span></a></li>
+        <li><a href="blog.html" aria-current="page"><span class="mono">B</span><span class="menu__txt">Blog</span></a></li>
+      </ol>
+    </nav>
+    <div class="menu__foot mono">
+      <span><span data-clock>--:--:--</span> IST</span>
+      <span>22.5726° N, 88.3639° E</span>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <section class="section blog" aria-labelledby="blog-title">
+      <div class="blog__meta grid mono">
+        <span>(B) — Journal</span>
+        <span>Local time <span data-clock>--:--:--</span> IST</span>
+        <span><span class="status-dot" aria-hidden="true"></span>Status — Writing</span>
+      </div>
+      <h1 class="blog__title" id="blog-title"><span class="line"><span>Notes &amp;</span></span><span class="line line--r"><span>Writing</span></span></h1>
+      <p class="blog__lede">Write-ups on AI, robotics and the systems I build: what worked, what broke, and why.</p>
+      <div class="blog__list-wrap" id="blog-content"></div>
+    </section>
+    <div class="load-error" id="load-error" role="alert" hidden></div>
   </main>
 
-  <footer class="footer" id="footer"></footer>
+  <footer class="contact contact--compact" id="contact" aria-labelledby="contact-label">
+    <div class="contact__head grid">
+      <h2 class="sec-idx mono" id="contact-label">(06) — Contact</h2>
+      <p class="contact__lede" data-reveal>Read something useful, or found a mistake? Write any time.</p>
+    </div>
+    <div class="contact__email-wrap" id="contact-email"></div>
+    <div class="contact__grid grid" id="contact-grid"></div>
+    <div class="contact__base mono">
+      <span>&copy; <span data-year>2026</span> <span data-name>Nirjhar Mitra</span></span>
+      <span>22.5726° N, 88.3639° E</span>
+      <span>Set in Archivo &amp; IBM Plex Mono. Built by hand.</span>
+    </div>
+  </footer>
 
-  <button class="icon-btn back-to-top" id="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 19V5M5 12l7-7 7 7" />
-    </svg>
+  <button class="to-top mono" id="to-top" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    <span>Top</span>
   </button>
 
+  <div class="modal" id="resume-modal" role="dialog" aria-modal="true" aria-labelledby="resume-title" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__panel">
+      <div class="modal__bar">
+        <p class="modal__title mono" id="resume-title">Résumé / PDF</p>
+        <div class="modal__actions mono">
+          <a href="#" class="modal__link" id="resume-newtab" target="_blank" rel="noopener">Open in new tab</a>
+          <a href="#" class="modal__link" id="resume-download" download>Download</a>
+          <button type="button" class="modal__close" data-modal-close aria-label="Close résumé preview">Close <span aria-hidden="true">&times;</span></button>
+        </div>
+      </div>
+      <div class="modal__frame">
+        <p class="modal__fallback">If the preview stays blank, your browser can't display PDFs inline. Use “Download” or “Open in new tab” above.</p>
+        <iframe id="resume-frame" title="Résumé PDF preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
-    integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous"></script>
-  <script src="../assets/js/script.js"></script>
+    integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous" defer></script>
+  <script src="../assets/js/script.js" defer></script>
 </body>
 
 </html>

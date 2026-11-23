@@ -1,8 +1,8 @@
 # Nirjhar Mitra — Portfolio
 
-A fast, data-driven static portfolio with a warm-dark editorial design: Instrument Serif display type, Inter body text, JetBrains Mono labels, and a single ember-orange accent. Includes a skills marquee, a bento "about" grid with live local time and count-up stats, a timeline for experience, a spotlight-hover projects grid, and a light theme that follows system preference.
+A fast, data-driven static portfolio with a "telemetry sheet" design: Swiss-editorial layout meets aerospace spec sheet. Type is Archivo (variable width, condensed for display) with IBM Plex Mono for labels and indices; the palette is bone paper and ink with a single international-orange accent, in light and dark themes. The hero is a WebGL LiDAR terrain point cloud.
 
-Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps, zero node modules (except a CDN link for parsing YAML), and ready to deploy instantly.
+Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps and zero node modules; libraries (GSAP, Lenis, Three.js, js-yaml) load from CDNs. Deploys instantly.
 
 🔗 **Live:** [theoneoh1.github.io](https://theoneoh1.github.io/)
 
@@ -10,11 +10,14 @@ Built with **plain HTML5, CSS3, and Vanilla JavaScript**. Zero build steps, zero
 
 ## Key Features
 
-- **YAML-Driven Content:** All personal data (skills, experience, projects, education, certifications) lives in a single `data/content.yaml`. Update the site without touching HTML or JavaScript.
-- **Résumé Preview & Download:** The PDF in `assets/docs/` is previewed in a modal and offered for download from the hero and footer.
-- **Dark & Light Modes:** Theme toggle with `localStorage` persistence; defaults to the system preference and bootstraps before first paint (no flash).
-- **Responsive & Fast:** Fluid type, bento/grid layouts that collapse cleanly on mobile, and a drawer nav.
-- **Subtle Interactions:** Scroll progress bar, active-section nav, reveal-on-scroll, cursor spotlight on cards, count-up stats, live Kolkata clock. Respects `prefers-reduced-motion`.
+- **YAML-Driven Content:** All personal data (skills, experience, projects, education, certifications, blog posts) lives in a single `data/content.yaml`. Update the site without touching HTML or JavaScript.
+- **WebGL LiDAR Hero:** A point-cloud terrain scan (Three.js 0.160) in `assets/js/hero-gl.js`, tuned through the `CFG` object at the top of the file. Static single frame under reduced motion; falls back gracefully when WebGL or the CDN is unavailable.
+- **Animation:** GSAP 3.13 + ScrollTrigger + SplitText, with Lenis smooth scroll synced to ScrollTrigger.
+- **Sections:** Preloader, word-scrub about statement, project index with a cursor-following preview panel, experience ledger, velocity-reactive skills marquee, education and certifications, and a blog page.
+- **Cursor and Interaction:** Custom cursor and magnetic CTAs (desktop only), live Kolkata clock, scroll progress, active-section nav.
+- **Résumé Modal:** The PDF in `assets/docs/` is previewed in a modal and offered for download.
+- **Light & Dark:** Theme toggle with `localStorage` persistence; defaults to the system preference and bootstraps before first paint.
+- **Accessible & Resilient:** Respects `prefers-reduced-motion` (no Lenis, scrub, or preloader delay), and is progressively enhanced: the page is complete without any CDN animation library.
 - **Print Ready:** `@media print` styles for a clean PDF export.
 
 ## Getting Started
@@ -30,9 +33,10 @@ cd theoneoh1.github.io
 
 Open `data/content.yaml` and update the sections. Notes:
 
-- For icons in the links section, supported values are: `email`, `linkedin`, `github`, `preview` (opens the résumé in a modal), and `download`.
-- The first project in `projects:` is shown as the featured card. A project with `url: "#"` is marked "In progress".
-- Any experience entry whose `date` contains "Present" gets a highlighted timeline marker.
+- Link icons supported in the links section: `email`, `linkedin`, `github`, `preview` (opens the résumé in a modal), and `download`.
+- Projects without a real `url` (for example `"#"`) render as non-linked rows.
+- Any experience entry whose `date` contains "Present" is marked current in the ledger with an orange status dot and listed in the about facts.
+- Blog posts come from the `blogs:` list; with none, the blog page shows an empty state.
 
 ### 3. Update the Résumé
 
@@ -60,7 +64,8 @@ Push to the `main` branch of a `yourusername.github.io` repository with GitHub P
 │   ├── css/
 │   │   └── style.css                  # Design system (tokens, layout, themes, print)
 │   ├── js/
-│   │   └── script.js                  # Fetches YAML, renders DOM, handles interactions
+│   │   ├── script.js                  # Fetches YAML, renders DOM, animation + interactions
+│   │   └── hero-gl.js                 # WebGL LiDAR point-cloud hero (Three.js; tune via CFG)
 │   ├── images/
 │   │   ├── favicon.ico
 │   │   └── og-preview.png             # Social preview card

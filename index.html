@@ -1,131 +1,288 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nirjhar Mitra — AI Enthusiast & Developer</title>
+  <title>Nirjhar Mitra — AI Enthusiast &amp; Developer</title>
   <link rel="icon" type="image/png" href="assets/images/favicon.ico">
   <meta name="description"
-    content="AI Enthusiast and developer working across Machine Learning, Robotics (ROS2, Gazebo), Flutter, and Cloud — CTO at AIZenera LLP, pursuing AI at IIT Ropar.">
-  <meta name="theme-color" content="#0b0b0d">
+    content="Nirjhar Mitra — AI enthusiast and developer working across machine learning, robotics (ROS2, Gazebo), Flutter and cloud. CTO at AIZenera LLP, pursuing AI at IIT Ropar.">
+  <meta name="theme-color" content="#ECE9E2">
+  <link rel="canonical" href="https://theoneoh1.github.io/">
 
   <!-- OG / Twitter -->
-  <meta property="og:title" content="Nirjhar Mitra — AI Enthusiast & Developer">
+  <meta property="og:title" content="Nirjhar Mitra — AI Enthusiast &amp; Developer">
   <meta property="og:description"
-    content="AI Enthusiast and developer working across Machine Learning, Robotics, Flutter, and Cloud technologies.">
+    content="AI enthusiast and developer working across machine learning, robotics, Flutter and cloud technologies.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://theoneoh1.github.io/">
   <meta property="og:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Nirjhar Mitra — AI Enthusiast & Developer">
+  <meta name="twitter:title" content="Nirjhar Mitra — AI Enthusiast &amp; Developer">
   <meta name="twitter:description"
-    content="AI Enthusiast and developer working across Machine Learning, Robotics, Flutter, and Cloud technologies.">
+    content="AI enthusiast and developer working across machine learning, robotics, Flutter and cloud technologies.">
   <meta name="twitter:image" content="https://theoneoh1.github.io/assets/images/og-preview.png">
 
-  <!-- Theme bootstrap: avoid flash of wrong theme -->
+  <!-- Bootstrap: js flag + theme before first paint (no flash) -->
   <script>
     (function () {
+      var d = document.documentElement;
+      d.className += ' js';
       try {
         var s = localStorage.getItem('theme');
-        if (!s) s = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', s);
+        if (s !== 'light' && s !== 'dark') s = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        d.setAttribute('data-theme', s);
       } catch (e) { }
+      // Failsafe: never leave the preloader / hidden hero up if scripts stall.
+      setTimeout(function () { d.classList.add('is-loaded'); }, 6000);
     })();
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body data-root="">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-  <div class="backdrop" aria-hidden="true">
-    <div class="backdrop-grid"></div>
-    <div class="backdrop-glow"></div>
-    <div class="backdrop-noise"></div>
+  <!-- Preloader (only shown with JS, never with reduced motion) -->
+  <div class="preloader" id="preloader" aria-hidden="true">
+    <div class="preloader__row mono">
+      <span>Field notes / Portfolio</span>
+      <span>Calibrating</span>
+    </div>
+    <div class="preloader__count"><span id="preloader-count">000</span></div>
+    <div class="preloader__bar"><span id="preloader-bar"></span></div>
+    <div class="preloader__row mono">
+      <span>22.5726° N, 88.3639° E</span>
+      <span>Kolkata / IST</span>
+    </div>
   </div>
-  <div class="progress" id="progress" aria-hidden="true"></div>
 
-  <!-- Nav -->
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a href="#top" class="nav-brand"><span class="dot"></span>nirjhar.mitra</a>
-      <div class="nav-links" id="nav-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#experience">Experience</a>
-        <a href="#projects">Projects</a>
-        <a href="#education">Education</a>
-        <a href="pages/blog.html">Blog</a>
+  <!-- Faint 12-column guides -->
+  <div class="guides" aria-hidden="true">
+    <div class="guides__inner"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+  </div>
+
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <!-- Navigation -->
+  <header class="nav" id="nav">
+    <a class="nav__brand" href="#top" aria-label="Back to the top of the page">
+      <span class="nav__mark">NM</span>
+      <span class="nav__brand-text mono">Field notes</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <ul>
+        <li><a href="#about"><span class="nav__idx mono">01</span>About</a></li>
+        <li><a href="#work"><span class="nav__idx mono">02</span>Work</a></li>
+        <li><a href="#experience"><span class="nav__idx mono">03</span>Experience</a></li>
+        <li><a href="#capabilities"><span class="nav__idx mono">04</span>Capabilities</a></li>
+        <li><a href="#education"><span class="nav__idx mono">05</span>Education</a></li>
+        <li><a href="#contact"><span class="nav__idx mono">06</span>Contact</a></li>
+        <li><a href="pages/blog.html"><span class="nav__idx mono">B</span>Blog</a></li>
+      </ul>
+    </nav>
+    <div class="nav__actions">
+      <button class="nav__btn mono" id="theme-toggle" type="button" aria-label="Switch to dark theme">
+        <span class="nav__btn-k">Theme</span><span class="nav__btn-v" data-theme-label>Light</span>
+      </button>
+      <button class="nav__btn nav__menu-btn mono" id="menu-toggle" type="button" aria-expanded="false"
+        aria-controls="menu"><span data-menu-label>Menu</span></button>
+    </div>
+  </header>
+
+  <!-- Mobile full-screen menu -->
+  <div class="menu" id="menu" aria-hidden="true" inert>
+    <nav aria-label="Mobile">
+      <ol class="menu__list">
+        <li><a href="#about"><span class="mono">01</span><span class="menu__txt">About</span></a></li>
+        <li><a href="#work"><span class="mono">02</span><span class="menu__txt">Work</span></a></li>
+        <li><a href="#experience"><span class="mono">03</span><span class="menu__txt">Experience</span></a></li>
+        <li><a href="#capabilities"><span class="mono">04</span><span class="menu__txt">Capabilities</span></a></li>
+        <li><a href="#education"><span class="mono">05</span><span class="menu__txt">Education</span></a></li>
+        <li><a href="#contact"><span class="mono">06</span><span class="menu__txt">Contact</span></a></li>
+        <li><a href="pages/blog.html"><span class="mono">B</span><span class="menu__txt">Blog</span></a></li>
+      </ol>
+    </nav>
+    <div class="menu__foot mono">
+      <span><span data-clock>--:--:--</span> IST</span>
+      <span>22.5726° N, 88.3639° E</span>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+
+    <!-- (00) Hero -->
+    <section class="hero" id="top" aria-label="Introduction">
+      <div id="hero-gl" class="hero__gl" aria-hidden="true"></div>
+      <div class="hero__marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+      <div class="hero__meta grid mono" data-hero-fade>
+        <dl class="hero__meta-item">
+          <dt>(00) Index</dt>
+          <dd>Portfolio, ed. <span data-year>2026</span></dd>
+        </dl>
+        <dl class="hero__meta-item">
+          <dt>Coordinates</dt>
+          <dd>22.5726° N<br>88.3639° E</dd>
+        </dl>
+        <dl class="hero__meta-item">
+          <dt>Local time / IST</dt>
+          <dd><span data-clock>--:--:--</span></dd>
+        </dl>
+        <dl class="hero__meta-item">
+          <dt>Status</dt>
+          <dd><span class="status-dot" aria-hidden="true"></span>Building</dd>
+        </dl>
       </div>
-      <div class="nav-actions">
-        <button class="icon-btn" id="theme-toggle" aria-label="Toggle theme">
-          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-          </svg>
-          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
-        </button>
-        <button class="icon-btn nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M4 7h16M4 12h16M4 17h16" />
-          </svg>
-        </button>
+
+      <div class="hero__intro grid">
+        <p class="hero__role" id="hero-role" data-hero-fade></p>
+        <p class="hero__tagline" id="hero-tagline" data-hero-fade></p>
       </div>
+
+      <h1 class="hero__name" id="hero-name">
+        <span class="line"><span>Nirjhar</span></span>
+        <span class="line line--r"><span>Mitra</span></span>
+      </h1>
+
+      <div class="hero__foot grid">
+        <a href="#about" class="hero__cue mono" data-hero-fade><span class="hero__cue-line" aria-hidden="true"></span>Scroll to read</a>
+        <div class="hero__ctas" data-hero-fade>
+          <a href="#work" class="btn" data-magnetic>View selected work</a>
+          <button type="button" class="btn btn--ghost" data-resume-open data-magnetic>Preview résumé</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- (01) About -->
+    <section class="section about" id="about" aria-labelledby="about-label">
+      <div class="about__grid grid">
+        <div class="about__side">
+          <h2 class="sec-idx mono" id="about-label">(01) — About</h2>
+          <div class="about__facts" id="about-facts"></div>
+        </div>
+        <p class="about__statement" id="about-statement"></p>
+      </div>
+    </section>
+
+    <!-- (02) Work -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <header class="sec-head grid">
+        <p class="sec-idx mono">(02) — Index of work</p>
+        <h2 class="sec-head__title" id="work-title" data-reveal="mask"><span class="mask"><span>Selected work</span></span></h2>
+        <p class="sec-head__meta mono" data-count="projects"></p>
+      </header>
+      <ol class="work-list" id="work-list"></ol>
+      <p class="work__more mono" id="work-more"></p>
+    </section>
+
+    <!-- (03) Experience -->
+    <section class="section experience" id="experience" aria-labelledby="exp-title">
+      <header class="sec-head grid">
+        <p class="sec-idx mono">(03) — Ledger</p>
+        <h2 class="sec-head__title" id="exp-title" data-reveal="mask"><span class="mask"><span>Experience</span></span></h2>
+        <p class="sec-head__meta mono" data-count="experience"></p>
+      </header>
+      <div class="ledger">
+        <div class="ledger__head mono" aria-hidden="true">
+          <span>Period</span><span>Role</span><span>Organisation</span><span>Location</span><span>State</span>
+        </div>
+        <ol class="ledger__body" id="ledger"></ol>
+      </div>
+    </section>
+
+    <!-- Velocity marquee (decorative; skills are listed in full below) -->
+    <div class="marquee" id="marquee" aria-hidden="true">
+      <div class="marquee__track" id="marquee-track"></div>
     </div>
-  </nav>
 
-  <main id="top">
-    <div class="container">
-      <!-- Hero / About — rendered from content.yaml -->
-      <section class="hero" id="about" aria-label="Introduction"></section>
-    </div>
+    <!-- (04) Capabilities -->
+    <section class="section capabilities" id="capabilities" aria-labelledby="cap-title">
+      <header class="sec-head grid">
+        <p class="sec-idx mono">(04) — Spec sheet</p>
+        <h2 class="sec-head__title" id="cap-title" data-reveal="mask"><span class="mask"><span>Capabilities</span></span></h2>
+        <p class="sec-head__meta mono" data-count="skills"></p>
+      </header>
+      <div class="spec" id="spec"></div>
+    </section>
 
-    <!-- Skills marquee — rendered from content.yaml -->
-    <div class="marquee" id="marquee" aria-hidden="true"></div>
+    <!-- (05) Education + certifications -->
+    <section class="section education" id="education" aria-labelledby="edu-title">
+      <header class="sec-head grid">
+        <p class="sec-idx mono">(05) — Training</p>
+        <h2 class="sec-head__title" id="edu-title" data-reveal="mask"><span class="mask"><span>Education</span></span></h2>
+      </header>
+      <div class="edu grid">
+        <div class="edu__col">
+          <h3 class="edu__label mono">Degrees &amp; schooling</h3>
+          <ol class="edu__list" id="edu-list"></ol>
+        </div>
+        <div class="edu__col">
+          <h3 class="edu__label mono">Certifications</h3>
+          <ol class="edu__list" id="cert-list"></ol>
+        </div>
+      </div>
+    </section>
 
-    <div class="container">
-      <!-- About bento — rendered from content.yaml -->
-      <section id="overview"></section>
-
-      <!-- Skills -->
-      <section id="skills"></section>
-
-      <!-- Experience -->
-      <section id="experience"></section>
-
-      <!-- Projects -->
-      <section id="projects"></section>
-
-      <!-- Education + Certifications -->
-      <section id="education"></section>
-
-      <!-- Contact -->
-      <section class="contact" id="contact"></section>
-    </div>
+    <div class="load-error" id="load-error" role="alert" hidden></div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer" id="footer"></footer>
+  <!-- (06) Contact / footer -->
+  <footer class="contact" id="contact" aria-labelledby="contact-label">
+    <div class="contact__head grid">
+      <h2 class="sec-idx mono" id="contact-label">(06) — Contact</h2>
+      <p class="contact__lede" data-reveal>Open to research, collaborations and hard problems in AI, robotics and cloud. Write any time.</p>
+    </div>
+    <div class="contact__email-wrap" id="contact-email"></div>
+    <div class="contact__grid grid" id="contact-grid"></div>
+    <div class="contact__base mono">
+      <span>&copy; <span data-year>2026</span> <span data-name>Nirjhar Mitra</span></span>
+      <span>22.5726° N, 88.3639° E</span>
+      <span>Set in Archivo &amp; IBM Plex Mono. Built by hand.</span>
+    </div>
+  </footer>
 
-  <!-- Back to top -->
-  <button class="icon-btn back-to-top" id="back-to-top" aria-label="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 19V5M5 12l7-7 7 7" />
-    </svg>
+  <button class="to-top mono" id="to-top" type="button" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+    <span>Top</span>
   </button>
 
+  <!-- Résumé preview modal -->
+  <div class="modal" id="resume-modal" role="dialog" aria-modal="true" aria-labelledby="resume-title" hidden>
+    <div class="modal__backdrop" data-modal-close></div>
+    <div class="modal__panel">
+      <div class="modal__bar">
+        <p class="modal__title mono" id="resume-title">Résumé / PDF</p>
+        <div class="modal__actions mono">
+          <a href="#" class="modal__link" id="resume-newtab" target="_blank" rel="noopener">Open in new tab</a>
+          <a href="#" class="modal__link" id="resume-download" download>Download</a>
+          <button type="button" class="modal__close" data-modal-close aria-label="Close résumé preview">Close <span aria-hidden="true">&times;</span></button>
+        </div>
+      </div>
+      <div class="modal__frame">
+        <p class="modal__fallback">If the preview stays blank, your browser can't display PDFs inline. Use “Download” or “Open in new tab” above.</p>
+        <iframe id="resume-frame" title="Résumé PDF preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- Libraries (pinned). The site works without them. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js" defer></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"
-    integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous"></script>
-  <script src="assets/js/script.js"></script>
+    integrity="sha256-Rdw90D3AegZwWiwpibjH9wkBPwS9U4bjJ51ORH8H69c=" crossorigin="anonymous" defer></script>
+  <script src="assets/js/script.js" defer></script>
 </body>
 
 </html>
