@@ -1,0 +1,493 @@
+/* ==================================================================
+   LIQUID GLASS: SURFACES (second layer on top of style.css + glass.css)
+   Applied to: .btn--line, .pill (not .pill--ink), .pill--ink (gloss
+   only), .email, .tag-label, .cert, .modal__bar, .modal__close,
+   .xp__panel, .pg-chip (gloss only), .cursor__blob (clear lens).
+
+   Reuses the glass.css tokens (--lg-tint*, --lg-rim*, --lg-shade,
+   --lg-sat) and its look: a pointer-tracked rim ring on ::before
+   (mask-composite) and an inner sheen on ::after. glass.js sets
+   --lg-x / --lg-y (px) per element and, in Chromium, --lg-filter +
+   .lg-ready + html.lg-refract.
+
+   Pseudo-elements: none of these targets use ::before/::after in
+   style.css; .pg-chip and .cursor__blob get no ring pseudo
+   (box-shadow / background layers instead), so they stay cheap.
+   ================================================================== */
+
+@property --gs-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+:root {
+  /* light "frost" for surfaces whose text stays ink in both themes */
+  --gs-frost: rgba(255, 251, 243, .52);
+  --gs-frost-strong: rgba(255, 251, 243, .72);
+  --gs-depth: rgba(20, 18, 16, .42);
+  --gs-blur-sm: 8px;
+  --gs-blur-md: 12px;
+  --gs-blur-lg: 16px;
+  /* static rim, same recipe as glass.css */
+  --gs-rim-lin: linear-gradient(160deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .08) 38%, rgba(255, 255, 255, .02) 62%, rgba(255, 255, 255, .55));
+}
+:root[data-theme="dark"] {
+  --gs-frost: rgba(244, 239, 230, .56);
+  --gs-frost-strong: rgba(244, 239, 230, .74);
+  --gs-depth: rgba(0, 0, 0, .6);
+}
+
+/* ==================================================================
+   1. The shared material: glass buttons / pills / email / label / cert
+   ================================================================== */
+.btn.btn--line,
+.pill:not(.pill--ink),
+.email,
+.tag-label,
+.cert,
+.modal__bar,
+.modal__close,
+.xp__panel {
+  --lg-x: 50%;
+  --lg-y: 0%;
+  position: relative;
+  isolation: isolate;
+}
+
+/* Rim ring: pointer-tracked highlight, masked to the edge */
+.btn.btn--line::before,
+.pill:not(.pill--ink)::before,
+.email::before,
+.tag-label::before,
+.cert::before,
+.modal__bar::before,
+.modal__close::before,
+.xp__panel::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  padding: 1.5px;
+  background:
+    radial-gradient(120px 60px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .95), transparent 70%),
+    var(--gs-rim-lin);
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: .9;
+}
+:root[data-theme="dark"] .btn.btn--line::before,
+:root[data-theme="dark"] .pill:not(.pill--ink)::before,
+:root[data-theme="dark"] .email::before,
+:root[data-theme="dark"] .modal__close::before { opacity: .7; }
+
+/* Inner sheen: glow under the pointer + top gloss */
+.btn.btn--line::after,
+.pill:not(.pill--ink)::after,
+.email::after,
+.tag-label::after,
+.cert::after,
+.modal__bar::after,
+.modal__close::after,
+.xp__panel::after {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(160px 90px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .30), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, .26), rgba(255, 255, 255, 0) 48%);
+  opacity: .55; transition: opacity .35s;
+}
+.btn.btn--line:hover::after,
+.pill:not(.pill--ink):hover::after,
+.email:hover::after,
+.cert:hover::after,
+.modal__close:hover::after { opacity: 1; }
+
+/* ---------- Buttons + pills ---------- */
+/* Same size/padding; the hard 0 5px 0 drop becomes a short translucent
+   ledge + soft depth, the 2px ink outline becomes a faint ink edge. */
+.btn.btn--line,
+.pill:not(.pill--ink) {
+  --gs-ledge: rgba(20, 18, 16, .5);
+  --gs-ledge: color-mix(in srgb, var(--b-sh) 52%, transparent);
+  background: var(--gs-frost);
+  border-color: rgba(20, 18, 16, .55);
+  border-color: color-mix(in srgb, var(--b-sh) 58%, transparent);
+  -webkit-backdrop-filter: blur(var(--gs-blur-md)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--gs-blur-md)) saturate(var(--lg-sat));
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    inset 0 -10px 18px -12px var(--lg-shade),
+    0 4px 0 -1px var(--gs-ledge),
+    0 14px 26px -12px var(--gs-depth);
+}
+.btn.btn--line:hover,
+.pill:not(.pill--ink):hover {
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    inset 0 -10px 18px -12px var(--lg-shade),
+    0 6px 0 -1px var(--gs-ledge),
+    0 20px 32px -12px var(--gs-depth);
+}
+.btn.btn--line:active,
+.pill:not(.pill--ink):active {
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    inset 0 2px 8px -2px var(--lg-shade),
+    0 0 0 0 var(--gs-ledge),
+    0 4px 10px -6px var(--gs-depth);
+}
+.pill--sm:not(.pill--ink) {
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    0 3px 0 -1px var(--gs-ledge),
+    0 10px 18px -10px var(--gs-depth);
+}
+.pill--sm:not(.pill--ink):hover {
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    0 4px 0 -1px var(--gs-ledge),
+    0 14px 22px -10px var(--gs-depth);
+}
+/* Dark hero: .btn--line has cream text there, so it becomes smoked glass */
+:root[data-theme="dark"] .zone--base .btn.btn--line {
+  background: var(--lg-tint-strong);
+}
+/* svg icons + label sit above the pseudo layers */
+/* (span.lg-drop, the press ripple from glass.js, keeps its own absolute positioning) */
+.btn.btn--line > :not(.lg-drop), .pill:not(.pill--ink) > :not(.lg-drop) { position: relative; }
+
+/* ---------- Primary pill: stays solid, gets a glossy highlight ---------- */
+.pill--ink { isolation: isolate; }
+.pill--ink::after {
+  content: "";
+  position: absolute; inset: 2px 3px auto; height: 52%; z-index: -1;
+  border-radius: 999px 999px 40% 40% / 999px 999px 60% 60%;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, .04));
+}
+.pill--ink::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .38), inset 0 -2px 5px rgba(0, 0, 0, .28);
+}
+.pill--ink > :not(.lg-drop) { position: relative; }
+
+/* ---------- Copy-email row ---------- */
+.email {
+  background: var(--gs-frost-strong);
+  border-color: rgba(20, 18, 16, .6);
+  -webkit-backdrop-filter: blur(var(--gs-blur-lg)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--gs-blur-lg)) saturate(var(--lg-sat));
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .9),
+    inset 0 -1px 0 0 rgba(255, 255, 255, .35),
+    inset 0 -14px 24px -16px rgba(20, 18, 16, .16),
+    0 5px 0 -1px rgba(20, 18, 16, .55),
+    0 22px 40px -18px var(--gs-depth);
+}
+.email::before { padding: 2px; }
+.email__addr, .email__copy { position: relative; }
+/* press hosts need their own rounded radius for span.lg-drop */
+.email__addr { border-radius: 999px 0 0 999px; }
+/* the solid copy button picks up a little gloss so it sits in the glass */
+.email__copy { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), inset 0 -2px 6px rgba(0, 0, 0, .25); }
+
+/* ---------- Iridescent "liquid" rim on hero-ish pieces ---------- */
+.hero .btn.btn--line::before,
+.empty .btn.btn--line::before,
+.email::before {
+  background:
+    radial-gradient(120px 60px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .95), transparent 70%),
+    /* white-dominant iridescence: peach / mint / rose / butter, no blue-violet.
+       Written inline (not a :root token) so the animated --gs-angle resolves here. */
+    conic-gradient(from var(--gs-angle),
+      rgba(255, 255, 255, .95),
+      rgba(255, 222, 186, .80) 12%,
+      rgba(255, 255, 255, .22) 25%,
+      rgba(198, 255, 226, .75) 38%,
+      rgba(255, 255, 255, .92) 50%,
+      rgba(255, 202, 216, .75) 63%,
+      rgba(255, 255, 255, .18) 76%,
+      rgba(255, 241, 188, .80) 88%,
+      rgba(255, 255, 255, .95));
+  animation: gs-drift 9s linear infinite;
+}
+.hero .btn.btn--line::before, .empty .btn.btn--line::before { padding: 2px; }
+.email::before { animation-duration: 12s; }
+@keyframes gs-drift { to { --gs-angle: 360deg; } }
+
+/* ---------- Rotated "About" label ---------- */
+.tag-label {
+  background: rgba(255, 255, 255, .26);
+  border-color: currentColor;
+  border-color: color-mix(in srgb, currentColor 72%, transparent);
+  -webkit-backdrop-filter: blur(var(--gs-blur-sm)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--gs-blur-sm)) saturate(var(--lg-sat));
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .85),
+    inset 0 -1px 0 0 rgba(255, 255, 255, .3),
+    inset 0 -8px 14px -10px rgba(20, 18, 16, .18),
+    0 12px 24px -12px rgba(20, 18, 16, .38);
+}
+
+/* ---------- Certificate cards ---------- */
+/* Tinted glass of their own colour (80%) so ink text keeps >7:1 even
+   over the cobalt education zone. */
+.cert {
+  background: var(--c);
+  background: color-mix(in srgb, var(--c) 80%, transparent);
+  border-color: rgba(20, 18, 16, .78);
+  -webkit-backdrop-filter: blur(var(--gs-blur-md)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--gs-blur-md)) saturate(var(--lg-sat));
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .85),
+    inset 0 -1px 0 0 rgba(255, 255, 255, .3),
+    inset 0 -12px 20px -14px rgba(20, 18, 16, .22),
+    0 4px 0 -1px rgba(20, 18, 16, .7),
+    0 18px 30px -14px rgba(10, 10, 20, .5);
+}
+.cert > :not(.lg-drop) { position: relative; }
+.cert:hover {
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .9),
+    inset 0 -1px 0 0 rgba(255, 255, 255, .35),
+    inset 0 -12px 20px -14px rgba(20, 18, 16, .22),
+    0 6px 0 -1px rgba(20, 18, 16, .6),
+    0 26px 38px -16px rgba(10, 10, 20, .55);
+}
+
+/* ---------- Modal bar + close ---------- */
+.modal__bar {
+  background: var(--sun);
+  background: color-mix(in srgb, var(--sun) 74%, transparent);
+  -webkit-backdrop-filter: blur(var(--gs-blur-lg)) saturate(180%);
+  backdrop-filter: blur(var(--gs-blur-lg)) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .8),
+    inset 0 -12px 20px -14px rgba(20, 18, 16, .2);
+  z-index: 1;
+}
+.modal__bar > :not(.lg-drop) { position: relative; }
+.modal__close {
+  position: relative;
+  background: rgba(20, 18, 16, .78);
+  -webkit-backdrop-filter: blur(var(--gs-blur-sm)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--gs-blur-sm)) saturate(var(--lg-sat));
+  --lg-rim: rgba(255, 255, 255, .5);
+  --lg-rim-soft: rgba(255, 255, 255, .16);
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    inset 0 -8px 12px -8px rgba(0, 0, 0, .5),
+    0 8px 16px -8px rgba(20, 18, 16, .55);
+}
+.modal__close::before { opacity: .65; }
+.modal__close::after { opacity: .35; }
+
+/* ---------- Expanded experience body ---------- */
+/* A glass slab over the row's colour fill; inset light only, so nothing
+   leaks while the panel is collapsed to height 0. */
+.xp__panel {
+  border-radius: var(--r-md);
+  background: linear-gradient(180deg, rgba(255, 255, 255, .30), rgba(255, 255, 255, .12));
+  -webkit-backdrop-filter: blur(var(--gs-blur-md)) saturate(160%);
+  backdrop-filter: blur(var(--gs-blur-md)) saturate(160%);
+  box-shadow:
+    inset 0 1px 0 0 rgba(255, 255, 255, .75),
+    inset 0 -1px 0 0 rgba(255, 255, 255, .25),
+    inset 0 -16px 26px -18px rgba(20, 18, 16, .2);
+}
+:root[data-theme="dark"] .xp__panel {
+  background: linear-gradient(180deg, rgba(255, 255, 255, .24), rgba(255, 255, 255, .08));
+}
+.xp__panel::before {
+  background:
+    radial-gradient(220px 80px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .9), transparent 70%),
+    var(--gs-rim-lin);
+}
+.xp__panel::after { opacity: .5; }
+.xp__inner { position: relative; padding: 18px 20px 22px; }
+
+/* ==================================================================
+   2. Physics chips: glossy glass candy (colour + shadow are inline
+      from playground.js, so only background-image + pseudo rim)
+   ================================================================== */
+.pg-chip {
+  --lg-x: 50%;
+  --lg-y: 0%;
+  position: relative;  /* inline absolute wins during physics */
+  isolation: isolate;
+  background-image:
+    radial-gradient(90px 44px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .42), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, .34) 0%, rgba(255, 255, 255, .06) 46%, rgba(255, 255, 255, 0) 54%, rgba(20, 18, 16, .07) 100%) !important;
+}
+.pg-chip::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  box-shadow:
+    inset 0 1.5px 0 rgba(255, 255, 255, .8),
+    inset 0 -1px 0 rgba(255, 255, 255, .3),
+    inset 0 -6px 10px -6px rgba(20, 18, 16, .25);
+}
+.pg-chip .pg-label { position: relative; }
+
+/* ==================================================================
+   3. Cursor: clear glass lens
+   ================================================================== */
+.cursor .cursor__blob {
+  border: 1px solid rgba(255, 255, 255, .92);
+  background-color: rgba(255, 255, 255, .1);
+  background-color: color-mix(in srgb, var(--cur) 20%, transparent);
+  background-image:
+    radial-gradient(60% 45% at 38% 26%, rgba(255, 255, 255, .7), rgba(255, 255, 255, 0) 70%),
+    radial-gradient(80% 60% at 50% 115%, color-mix(in srgb, var(--cur) 45%, transparent), transparent 70%);
+  -webkit-backdrop-filter: blur(1.5px) saturate(180%) brightness(1.06);
+  backdrop-filter: blur(1.5px) saturate(180%) brightness(1.06);
+  box-shadow:
+    0 0 0 1px rgba(20, 18, 16, .5),
+    inset 0 2px 3px -1px rgba(255, 255, 255, .95),
+    inset 0 -2px 4px -1px color-mix(in srgb, var(--cur) 70%, transparent),
+    0 4px 10px -2px rgba(20, 18, 16, .35);
+  transition: background-color .4s, box-shadow .4s;
+}
+:root[data-theme="dark"] .cursor .cursor__blob {
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, .6),
+    inset 0 2px 3px -1px rgba(255, 255, 255, .9),
+    inset 0 -2px 4px -1px color-mix(in srgb, var(--cur) 70%, transparent),
+    0 4px 12px -2px rgba(0, 0, 0, .55);
+}
+/* over links (glass.js grows the lens): clearer, brighter glass */
+.cursor.lg-lens-grow .cursor__blob {
+  background-color: color-mix(in srgb, var(--cur) 12%, transparent);
+}
+/* with a label the lens fills with colour so the text stays readable */
+.cursor.is-label .cursor__blob {
+  background-color: var(--cur);
+  background-color: color-mix(in srgb, var(--cur) 58%, transparent);
+  -webkit-backdrop-filter: blur(6px) saturate(180%);
+  backdrop-filter: blur(6px) saturate(180%);
+}
+html.lg-refract .cursor.is-label .cursor__blob.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(5px) saturate(180%);
+  backdrop-filter: var(--lg-filter) blur(5px) saturate(180%);
+}
+
+/* ==================================================================
+   4. Chromium refraction (glass.js: --lg-filter + .lg-ready)
+   ================================================================== */
+html.lg-refract .btn.btn--line.lg-ready,
+html.lg-refract .pill:not(.pill--ink).lg-ready,
+html.lg-refract .cert.lg-ready,
+html.lg-refract .modal__close.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(3px) saturate(var(--lg-sat));
+  backdrop-filter: var(--lg-filter) blur(3px) saturate(var(--lg-sat));
+}
+html.lg-refract .email.lg-ready,
+html.lg-refract .modal__bar.lg-ready,
+html.lg-refract .xp__panel.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(4px) saturate(var(--lg-sat));
+  backdrop-filter: var(--lg-filter) blur(4px) saturate(var(--lg-sat));
+}
+html.lg-refract .tag-label.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(2px) saturate(var(--lg-sat));
+  backdrop-filter: var(--lg-filter) blur(2px) saturate(var(--lg-sat));
+}
+html.lg-refract .cursor .cursor__blob.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(1px) saturate(180%) brightness(1.06);
+  backdrop-filter: var(--lg-filter) blur(1px) saturate(180%) brightness(1.06);
+}
+/* .pg-chip is opaque (inline colour), so refraction would be invisible
+   there; no rule on purpose. */
+
+/* ==================================================================
+   5. Mobile: lighter blur
+   ================================================================== */
+@media (max-width: 768px) {
+  :root { --gs-blur-sm: 5px; --gs-blur-md: 7px; --gs-blur-lg: 9px; }
+}
+
+/* ==================================================================
+   6. Motion / transparency / support fallbacks
+   ================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .hero .btn.btn--line::before,
+  .empty .btn.btn--line::before,
+  .email::before { animation: none; }
+}
+
+/* No backdrop-filter: tints would just be see-through, so go back to
+   the original solid fills (rims, gloss and depth stay). */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .btn.btn--line, .pill:not(.pill--ink) { background: var(--b-bg); }
+  .pills .pill:not(.pill--ink) { background: var(--cream); }
+  .email { background: var(--cream); }
+  .tag-label { background: transparent; }
+  .cert { background: var(--c); }
+  .modal__bar { background: var(--sun); }
+  .modal__close { background: var(--ink); }
+  .xp__panel { background: none; }
+  .cursor .cursor__blob, .cursor.lg-lens-grow .cursor__blob { background-color: var(--cur); background-image: none; border: 2px solid var(--ink); }
+}
+
+/* Reduced transparency: back to the original solid Kinetic Lab look */
+@media (prefers-reduced-transparency: reduce) {
+  .btn.btn--line, .pill:not(.pill--ink), .email, .tag-label, .cert,
+  .modal__bar, .modal__close, .xp__panel, .cursor .cursor__blob {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .btn.btn--line::before, .btn.btn--line::after,
+  .pill:not(.pill--ink)::before, .pill:not(.pill--ink)::after,
+  .email::before, .email::after,
+  .tag-label::before, .tag-label::after,
+  .cert::before, .cert::after,
+  .modal__bar::before, .modal__bar::after,
+  .modal__close::before, .modal__close::after,
+  .xp__panel::before, .xp__panel::after { content: none; }
+
+  .btn.btn--line, .pill:not(.pill--ink) {
+    background: var(--b-bg); border-color: var(--ink); box-shadow: 0 5px 0 var(--b-sh);
+  }
+  .zone--base .btn.btn--line { border-color: var(--edge); }
+  .btn.btn--line:hover, .pill:not(.pill--ink):hover { box-shadow: 0 7px 0 var(--b-sh); }
+  .btn.btn--line:active, .pill:not(.pill--ink):active { box-shadow: 0 0 0 var(--b-sh); }
+  .pill--sm:not(.pill--ink) { box-shadow: 0 3px 0 var(--b-sh); }
+  .pill--sm:not(.pill--ink):hover { box-shadow: 0 4px 0 var(--b-sh); }
+  :root[data-theme="dark"] .zone--base .btn.btn--line { background: var(--b-bg); }
+  .email { background: var(--cream); border-color: var(--ink); box-shadow: 0 6px 0 var(--ink); }
+  .tag-label { background: transparent; border-color: currentColor; box-shadow: none; }
+  .cert, .cert:hover { background: var(--c); border-color: var(--ink); box-shadow: 0 5px 0 var(--ink); }
+  .modal__bar { background: var(--sun); box-shadow: none; }
+  .modal__close { background: var(--ink); box-shadow: none; }
+  .xp__panel, :root[data-theme="dark"] .xp__panel { background: none; box-shadow: none; border-radius: 0; }
+  .pg-chip { background-image: none !important; }
+  .pg-chip::before { content: none; }
+  .cursor .cursor__blob, :root[data-theme="dark"] .cursor .cursor__blob,
+  .cursor.is-label .cursor__blob, .cursor.lg-lens-grow .cursor__blob {
+    background-color: var(--cur); background-image: none; border: 2px solid var(--ink); box-shadow: none;
+  }
+}
+
+@media print {
+  .btn.btn--line, .pill:not(.pill--ink), .email, .tag-label, .cert,
+  .modal__bar, .modal__close, .xp__panel, .pg-chip {
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+    box-shadow: none !important; background-image: none !important;
+  }
+  .btn.btn--line::before, .btn.btn--line::after,
+  .pill::before, .pill::after,
+  .email::before, .email::after,
+  .tag-label::before, .tag-label::after,
+  .cert::before, .cert::after,
+  .xp__panel::before, .xp__panel::after { content: none; }
+  .tag-label, .cert, .email { background: #fff; }
+  .xp__panel { background: none; }
+}

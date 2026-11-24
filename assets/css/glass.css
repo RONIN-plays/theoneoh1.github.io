@@ -1,0 +1,205 @@
+/* ==================================================================
+   LIQUID GLASS — additive layer on top of style.css
+   Applied to: nav link pill, nav theme/menu buttons, toast, modal backdrop.
+   - Everywhere: frosted blur + saturation, light rims, specular sheen
+     that follows the pointer.
+   - Chromium (html.lg-refract): real edge refraction + slight chromatic
+     split through an SVG displacement filter built by glass.js.
+   - Falls back to a solid surface when backdrop-filter is missing or
+     the user asks for reduced transparency.
+   ================================================================== */
+
+:root {
+  --lg-tint: rgba(255, 251, 243, .42);
+  --lg-tint-strong: rgba(255, 251, 243, .62);
+  --lg-rim: rgba(255, 255, 255, .85);
+  --lg-rim-soft: rgba(255, 255, 255, .35);
+  --lg-shade: rgba(20, 18, 16, .10);
+  --lg-drop: 0 10px 30px -8px rgba(20, 18, 16, .28), 0 2px 6px rgba(20, 18, 16, .10);
+  --lg-blur: 10px;
+  --lg-sat: 190%;
+}
+:root[data-theme="dark"] {
+  --lg-tint: rgba(30, 27, 24, .42);
+  --lg-tint-strong: rgba(30, 27, 24, .66);
+  --lg-rim: rgba(255, 255, 255, .42);
+  --lg-rim-soft: rgba(255, 255, 255, .12);
+  --lg-shade: rgba(0, 0, 0, .30);
+  --lg-drop: 0 12px 34px -8px rgba(0, 0, 0, .6), 0 2px 6px rgba(0, 0, 0, .3);
+}
+
+/* ---------- The material ---------- */
+.nav__links ul,
+.nav__theme,
+.nav__menu-btn,
+.toast {
+  --lg-x: 50%;
+  --lg-y: 0%;
+  isolation: isolate;
+  background: var(--lg-tint);
+  border: 0;
+  -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat));
+  backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-sat));
+  box-shadow:
+    inset 0 1px 0 0 var(--lg-rim),
+    inset 0 -1px 0 0 var(--lg-rim-soft),
+    inset 1px 0 0 0 var(--lg-rim-soft),
+    inset -1px 0 0 0 var(--lg-rim-soft),
+    inset 0 -10px 18px -12px var(--lg-shade),
+    var(--lg-drop);
+}
+
+/* Specular rim: a bright arc that tracks the pointer, masked to the edge */
+.nav__links ul::before,
+.nav__theme::before,
+.nav__menu-btn::before,
+.toast::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  padding: 1.5px;
+  background:
+    radial-gradient(120px 60px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .95), transparent 70%),
+    linear-gradient(160deg, rgba(255, 255, 255, .9), rgba(255, 255, 255, .08) 38%, rgba(255, 255, 255, .02) 62%, rgba(255, 255, 255, .55));
+  -webkit-mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: .9;
+}
+:root[data-theme="dark"] .nav__links ul::before,
+:root[data-theme="dark"] .nav__theme::before,
+:root[data-theme="dark"] .nav__menu-btn::before,
+:root[data-theme="dark"] .toast::before { opacity: .55; }
+
+/* Inner sheen: soft glow under the pointer + top gloss */
+.nav__links ul::after,
+.nav__theme::after,
+.nav__menu-btn::after,
+.toast::after {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  border-radius: inherit; pointer-events: none;
+  background:
+    radial-gradient(160px 90px at var(--lg-x) var(--lg-y), rgba(255, 255, 255, .28), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, 0) 46%);
+  opacity: 0; transition: opacity .35s;
+}
+.nav__links ul::after, .toast::after { opacity: .6; }
+.nav__links ul:hover::after,
+.nav__theme:hover::after,
+.nav__menu-btn:hover::after { opacity: 1; }
+.nav__theme::after, .nav__menu-btn::after { opacity: .6; }
+:root[data-theme="dark"] .nav__links ul::after,
+:root[data-theme="dark"] .nav__theme::after,
+:root[data-theme="dark"] .nav__menu-btn::after { opacity: .3; }
+
+/* ---------- Nav specifics ---------- */
+.nav__links ul, .nav__theme, .nav__menu-btn { position: relative; }
+.nav__links ul { padding: 6px; }
+.nav__links a { position: relative; }
+/* The active tab becomes a liquid "lens" instead of a flat ink fill */
+.nav__links a.is-active {
+  background: rgba(20, 18, 16, .86);
+  color: var(--cream);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), inset 0 -1px 0 rgba(0, 0, 0, .3), 0 4px 12px -4px rgba(20, 18, 16, .5);
+}
+:root[data-theme="dark"] .nav__links a.is-active {
+  background: rgba(244, 239, 230, .9);
+  color: var(--ink);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9), inset 0 -1px 0 rgba(0, 0, 0, .15), 0 4px 12px -4px rgba(0, 0, 0, .6);
+}
+
+/* Buttons squish like a droplet when pressed */
+.nav__theme, .nav__menu-btn {
+  transition: transform .5s var(--spring), background-color .3s;
+}
+.nav__theme:hover, .nav__menu-btn:hover { transform: scale(1.06); }
+.nav__theme:active, .nav__menu-btn:active { transform: scale(.92, .88); transition-duration: .12s; }
+.nav__theme svg { position: relative; }
+
+/* Over the open cobalt menu the buttons read as clear glass */
+html.menu-open .nav__menu-btn,
+html.menu-open .nav__theme {
+  background: rgba(255, 255, 255, .16);
+  color: var(--cream);
+}
+
+/* ---------- Toast ---------- */
+.toast {
+  background: rgba(20, 18, 16, .55);
+  color: var(--cream);
+  --lg-rim: rgba(255, 255, 255, .55);
+  --lg-rim-soft: rgba(255, 255, 255, .18);
+}
+:root[data-theme="dark"] .toast { background: rgba(20, 18, 16, .62); }
+
+/* ---------- Modal: frosted backdrop ---------- */
+.modal__backdrop {
+  background: rgba(20, 18, 16, .38);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+/* ---------- Chromium: true refraction ---------- */
+/* glass.js sets --lg-filter to url(#…) per element once its map is ready */
+html.lg-refract .nav__links ul.lg-ready,
+html.lg-refract .nav__theme.lg-ready,
+html.lg-refract .nav__menu-btn.lg-ready,
+html.lg-refract .toast.lg-ready {
+  -webkit-backdrop-filter: var(--lg-filter) blur(3px) saturate(var(--lg-sat));
+  backdrop-filter: var(--lg-filter) blur(3px) saturate(var(--lg-sat));
+}
+
+/* ---------- Fallbacks ---------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav__links ul, .nav__theme, .nav__menu-btn { background: var(--paper); }
+  .toast { background: var(--ink); }
+  .modal__backdrop { background: rgba(20, 18, 16, .72); }
+}
+@media (prefers-reduced-transparency: reduce) {
+  .nav__links ul, .nav__theme, .nav__menu-btn {
+    background: var(--paper) !important;
+    -webkit-backdrop-filter: none !important; backdrop-filter: none !important;
+  }
+  .toast { background: var(--ink) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+  .modal__backdrop { background: rgba(20, 18, 16, .72); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+@media print {
+  .nav__links ul, .nav__theme, .nav__menu-btn, .toast { -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+}
+
+/* ==================================================================
+   glass.js hooks: cursor lens wrapper, lens grow, press ripple
+   ================================================================== */
+/* Wrapper glass.js puts around .cursor__blob; carries the liquid stretch
+   (rotate·scale·rotate) so script.js's own blob transform stays untouched. */
+.cursor__lens {
+  position: absolute; left: 0; top: 0; width: 0; height: 0;
+  pointer-events: none; transform-origin: 0 0; will-change: transform;
+}
+/* .cursor.lg-lens-grow = hovering a, button, [data-cursor]; the grow itself is
+   sprung by glass.js on .cursor__lens and exposed as --lg-lens (0 → 1). */
+
+/* Liquid press "drop" (span.lg-drop spawned by glass.js, removed after) */
+@property --lg-drop-t { syntax: '<number>'; inherits: false; initial-value: 0; }
+.lg-drop {
+  position: absolute; inset: 0; z-index: 2;
+  border-radius: inherit; pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(circle at var(--lg-px) var(--lg-py),
+      rgba(255, 255, 255, 0) calc(var(--lg-drop-r) * var(--lg-drop-t) - 16px),
+      rgba(255, 255, 255, .95) calc(var(--lg-drop-r) * var(--lg-drop-t) - 4px),
+      rgba(255, 255, 255, 0) calc(var(--lg-drop-r) * var(--lg-drop-t) + 1px)),
+    radial-gradient(circle at var(--lg-px) var(--lg-py),
+      rgba(255, 255, 255, .5), rgba(255, 255, 255, 0) calc(var(--lg-drop-r) * var(--lg-drop-t) * .9)),
+    radial-gradient(circle at var(--lg-px) var(--lg-py),
+      rgba(20, 18, 16, 0) calc(var(--lg-drop-r) * var(--lg-drop-t) - 2px),
+      rgba(20, 18, 16, .14) calc(var(--lg-drop-r) * var(--lg-drop-t) + 1px),
+      rgba(20, 18, 16, 0) calc(var(--lg-drop-r) * var(--lg-drop-t) + 5px));
+  animation: lg-drop .62s cubic-bezier(.2, .7, .2, 1) forwards;
+}
+@keyframes lg-drop {
+  0% { --lg-drop-t: 0; opacity: 1; }
+  100% { --lg-drop-t: 1; opacity: 0; }
+}
+:root[data-theme="dark"] .lg-drop { mix-blend-mode: screen; }
+@media (prefers-reduced-motion: reduce) { .lg-drop { display: none; } }
